@@ -1,10 +1,12 @@
+import { RouterProvider } from 'react-router-dom'
 import { appEnv } from './config/env'
+import { router } from './router'
 
 function App() {
   console.log(appEnv.GITHUB_API_URL, 'appEnv.API_URL')
   return (
     <>
-      <h1 className='font-bold underline'>Hello world</h1>
+      <RouterProvider router={router} />
     </>
   )
 }
