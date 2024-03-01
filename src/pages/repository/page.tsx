@@ -7,21 +7,20 @@ import Alert from '../../components/Shared/Alert/Alert'
 import EmptyState from '../../components/Shared/Empty/Empty'
 import Pagination from '../../components/Shared/Pagination/Pagination'
 import Loader from '../../components/Shared/Loader/Loader'
-import RepositoryItem, {
-  IRepositoryItem
-} from '../../components/Repository/RepositoryItem/RepositoryItem'
+import RepositoryItem from '../../components/Repository/RepositoryItem/RepositoryItem'
 import RepositoryToolbar from '../../components/Repository/RepositoryToolbar/RepositoryToolbar'
 import { AxiosError } from 'axios'
 import { ApiError } from '../../types/apiError'
 import { MdClearAll } from 'react-icons/md'
+import { TStatus } from '../../types/status'
+import { IRepositoryItem } from '../../types/repository'
 
 export const RepositoryPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [status, setStatus] = useState(FETCH_STATUS.IDLE)
+  const [status, setStatus] = useState<TStatus>(FETCH_STATUS.IDLE)
   const [error, setError] = useState('')
-  const [repositories, setRepositories] = useState([])
+  const [repositories, setRepositories] = useState<IRepositoryItem[]>([])
   const [totalCount, setTotalCount] = useState(0)
-  console.log(totalCount, 'totalCount')
 
   useEffect(() => {
     const request = {
@@ -35,13 +34,12 @@ export const RepositoryPage = () => {
         const response = await getAllRepositories(request)
         // throw new Error('Something went wrong')
         setRepositories(response.items)
-        setTotalCount(response.total_count)
+        setTotalCount(response.total_count as number)
         setStatus(FETCH_STATUS.SUCCESS)
       } catch (error) {
         setStatus(FETCH_STATUS.ERROR)
         if (error instanceof AxiosError) {
           const err = error as AxiosError<ApiError>
-          console.log(err, 'API ERROR RESPONSE')
           setError(err.response?.data.message ?? 'Something went wrong')
         }
       }
@@ -77,7 +75,7 @@ export const RepositoryPage = () => {
   }
 
   return (
-    <div className='mt-[100px] flex flex-col items-center justify-center md:px-[100px]'>
+    <div className='my-[50px] flex flex-col items-center justify-center md:px-[100px]'>
       <div className='flex items-center justify-between gap-4'>
         {hasSearchParams() && (
           <button
@@ -100,7 +98,11 @@ export const RepositoryPage = () => {
             <RepositoryToolbar totalCount={totalCount} />
             <div className='w-full space-y-4'>
               {repositories.map((repo: IRepositoryItem, index) => (
-                <RepositoryItem key={index} {...repo} />
+                <RepositoryItem
+                  key={index}
+                  {...repo}
+                  searchParams={searchParams}
+                />
               ))}
             </div>
             <div className='my-8 md:w-full'>

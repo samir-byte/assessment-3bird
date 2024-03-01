@@ -7,7 +7,7 @@ interface LoaderProps {
 
 const Loader: React.FC<LoaderProps> = ({ size = 32, color = 'grey' }) => {
   return (
-    <div className='text-center'>
+    <div data-testid='loader' className='text-center'>
       <div role='status'>
         <svg
           className='inline animate-spin'

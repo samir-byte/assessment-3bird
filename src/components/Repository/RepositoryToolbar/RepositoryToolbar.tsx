@@ -24,13 +24,17 @@ const RepositoryToolbar: React.FC<Props> = props => {
   }
 
   return (
-    <div className='flex items-center justify-between'>
+    <div
+      data-testid='repository-toolbar'
+      className='mb-4 flex items-center justify-between'
+    >
       <h4>Repositories: {props.totalCount} Results</h4>
 
       <div className='flex items-center'>
-        <label htmlFor='sort-by' className='text-sm font-medium text-gray-900'>
-          Sort By
-        </label>
+        <span className='mr-2 whitespace-nowrap text-sm font-medium text-gray-900'>
+          Sort By:{' '}
+        </span>
+
         <select
           id='sort-by'
           defaultValue={sort}

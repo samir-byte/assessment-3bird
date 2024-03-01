@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { FETCH_STATUS } from '../../constants'
 import {
   getRepositoryMarkdown,
@@ -9,14 +9,17 @@ import Loader from '../../components/Shared/Loader/Loader'
 import Alert from '../../components/Shared/Alert/Alert'
 import { AxiosError } from 'axios'
 import { ApiError } from '../../types/apiError'
-import { IRepositoryItem } from '../../components/Repository/RepositoryItem/RepositoryItem'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { TStatus } from '../../types/status'
+import { IRepositoryItem } from '../../types/repository'
+import { VscIssues } from 'react-icons/vsc'
 
 export const RepositoryDetailPage = () => {
   const { owner, repo } = useParams<{ owner: string; repo: string }>()
   const [data, setData] = useState<IRepositoryItem>()
-  const [status, setStatus] = useState(FETCH_STATUS.IDLE)
+  const [status, setStatus] = useState<TStatus>(FETCH_STATUS.IDLE)
+  const [searchParams] = useSearchParams()
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -55,14 +58,14 @@ export const RepositoryDetailPage = () => {
 
   return (
     <div className='my-[50px] md:px-[100px]'>
-      <Link className='text-blue-500' to='/'>
-        Back to Home
+      <Link className='text-blue-500' to={`/?${searchParams.toString()}`}>
+        Back
       </Link>
       {isLoading && <Loader />}
       {isError && <Alert message={error} variant='danger' />}
       {isSuccess && data && (
         <div className='mt-[20px]'>
-          <div className='bg-gray-100 p-5'>
+          <div className='bg-gray-100 p-5 text-gray-700'>
             <p className='text-xl font-medium'>
               Name:
               <a
@@ -84,9 +87,9 @@ export const RepositoryDetailPage = () => {
               </a>{' '}
             </p>
 
-            <p className='text-l font-medium'>
-              Open issues: {data.open_issues}
-            </p>
+            <div className='text-l flex items-center font-medium'>
+              <VscIssues /> Open issues: {data.open_issues}
+            </div>
             <p className='text-l font-medium'>
               Default Branch: {data.default_branch}
             </p>

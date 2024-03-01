@@ -26,6 +26,7 @@ const Alert: React.FC<AlertProps> = ({ message, variant = 'default' }) => {
 
   return (
     <div
+      data-testid='alert'
       className={`mb-4 rounded-lg p-4 text-sm ${bgColor} ${textColor}`}
       role='alert'
     >
