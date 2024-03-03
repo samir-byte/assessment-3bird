@@ -11,9 +11,9 @@ import RepositoryItem from '../../components/Repository/RepositoryItem/Repositor
 import RepositoryToolbar from '../../components/Repository/RepositoryToolbar/RepositoryToolbar'
 import { AxiosError } from 'axios'
 import { ApiError } from '../../types/apiError'
-import { MdClearAll } from 'react-icons/md'
 import { TStatus } from '../../types/status'
 import { IRepositoryItem } from '../../types/repository'
+import { FaRegWindowClose } from 'react-icons/fa'
 
 export const RepositoryPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -32,7 +32,6 @@ export const RepositoryPage = () => {
       setStatus(FETCH_STATUS.LOADING)
       try {
         const response = await getAllRepositories(request)
-        // throw new Error('Something went wrong')
         setRepositories(response.items)
         setTotalCount(response.total_count as number)
         setStatus(FETCH_STATUS.SUCCESS)
@@ -76,20 +75,20 @@ export const RepositoryPage = () => {
 
   return (
     <div className='my-[50px] flex flex-col items-center justify-center md:px-[100px]'>
-      <div className='flex items-center justify-between gap-4'>
+      <div className='flex items-center justify-center gap-2'>
         {hasSearchParams() && (
           <button
             onClick={handleClear}
-            className='rounded-full bg-yellow-400 px-3 py-1 text-sm font-medium text-white hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300'
+            className='bg-red rounded-md border-gray-300 px-5 py-2.5 text-xs font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100'
           >
-            <MdClearAll className='h-4 w-4' />
+            <FaRegWindowClose className='h-4 w-4' />
           </button>
         )}
         <SearchBar placeholder='Search Repositories ...' />
       </div>
 
       <hr className='my-8 h-px w-full border-0 bg-gray-200' />
-      <div className='w-full'>
+      <div className='w-full px-[20px]'>
         {isLoading && <Loader />}
         {isError && <Alert message={error} variant='danger' />}
         {!isLoading && repositories.length === 0 && <EmptyState />}

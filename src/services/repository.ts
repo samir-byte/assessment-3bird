@@ -25,47 +25,28 @@ interface Markdown {
 export const getAllRepositories = async (
   params: RepositoryParams
 ): Promise<Response<IRepositoryItem[]>> => {
-  try {
-    console.log(params, 'params')
-    const response = await get({
-      endpoint: `search/repositories`,
-      config: {
-        params: { ...params, per_page: 10 }
-      }
-    })
-    return response
-  } catch (error) {
-    console.log(error, 'error')
-    throw error
-  }
+  return await get({
+    endpoint: `search/repositories`,
+    config: {
+      params: { ...params, per_page: 10 }
+    }
+  })
 }
 
 export const getSingleRepository = async (
   owner: string,
   repo: string
 ): Promise<IRepositoryItem> => {
-  try {
-    const response = await get({
-      endpoint: `repos/${owner}/${repo}`
-    })
-    return response
-  } catch (error) {
-    console.log(error, 'error')
-    throw error
-  }
+  return await get({
+    endpoint: `repos/${owner}/${repo}`
+  })
 }
 
 export const getRepositoryMarkdown = async (
   owner: string,
   repo: string
 ): Promise<Markdown> => {
-  try {
-    const response = await get({
-      endpoint: `repos/${owner}/${repo}/contents/README.md`
-    })
-    return response
-  } catch (error) {
-    console.log(error, 'error')
-    throw error
-  }
+  return await get({
+    endpoint: `repos/${owner}/${repo}/contents/README.md`
+  })
 }

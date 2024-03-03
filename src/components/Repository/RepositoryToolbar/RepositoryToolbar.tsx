@@ -26,9 +26,9 @@ const RepositoryToolbar: React.FC<Props> = props => {
   return (
     <div
       data-testid='repository-toolbar'
-      className='mb-4 flex items-center justify-between'
+      className='mb-4 md:flex md:items-center md:justify-between'
     >
-      <h4>Repositories: {props.totalCount} Results</h4>
+      <h4 className='mb-2 md:mb-0'>Repositories: {props.totalCount} Results</h4>
 
       <div className='flex items-center'>
         <span className='mr-2 whitespace-nowrap text-sm font-medium text-gray-900'>

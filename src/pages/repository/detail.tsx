@@ -13,7 +13,9 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { TStatus } from '../../types/status'
 import { IRepositoryItem } from '../../types/repository'
-import { VscIssues } from 'react-icons/vsc'
+import { IoMdArrowBack } from 'react-icons/io'
+import { FaReadme } from 'react-icons/fa'
+import DetailHeading from '../../components/Repository/DetailInfoSection/DetailInfoSection'
 
 export const RepositoryDetailPage = () => {
   const { owner, repo } = useParams<{ owner: string; repo: string }>()
@@ -53,51 +55,34 @@ export const RepositoryDetailPage = () => {
   }, [owner, repo])
 
   const isLoading = status === FETCH_STATUS.LOADING
-  const isSuccess = status === FETCH_STATUS.SUCCESS
+  const isSuccess = true
   const isError = status === FETCH_STATUS.ERROR
 
   return (
-    <div className='my-[50px] md:px-[100px]'>
-      <Link className='text-blue-500' to={`/?${searchParams.toString()}`}>
-        Back
+    <div className='my-[50px] px-[20px] md:px-[100px]'>
+      <Link
+        className='flex items-center gap-1 text-blue-500'
+        to={`/?${searchParams.toString()}`}
+      >
+        <IoMdArrowBack />
+        <span>Back</span>
       </Link>
       {isLoading && <Loader />}
       {isError && <Alert message={error} variant='danger' />}
       {isSuccess && data && (
         <div className='mt-[20px]'>
-          <div className='bg-gray-100 p-5 text-gray-700'>
-            <p className='text-xl font-medium'>
-              Name:
-              <a
-                className='text-blue-500'
-                href={`${data.html_url}`}
-                target='_blank'
-              >
-                {data.name}
-              </a>
-            </p>
-            <p className='text-l font-medium'>
-              Owner:{' '}
-              <a
-                className='text-blue-500'
-                href={`${data.owner.html_url}`}
-                target='_blank'
-              >
-                {data.owner.login}
-              </a>{' '}
-            </p>
-
-            <div className='text-l flex items-center font-medium'>
-              <VscIssues /> Open issues: {data.open_issues}
-            </div>
-            <p className='text-l font-medium'>
-              Default Branch: {data.default_branch}
-            </p>
-          </div>
+          <DetailHeading {...data} />
 
           <div className='mt-[20px]'>
-            <h1 className='text-xl font-bold'>Readme</h1>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <div className='flex items-center gap-1'>
+              <FaReadme />
+              <h1 className='text-2xl font-bold'>Readme</h1>
+            </div>
+
+            <ReactMarkdown
+              className='markdown prose'
+              remarkPlugins={[remarkGfm]}
+            >
               {data.content}
             </ReactMarkdown>
           </div>

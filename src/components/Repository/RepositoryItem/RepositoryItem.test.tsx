@@ -7,11 +7,13 @@ import { formatNumber } from '../../../helpers'
 describe('RepositoryItem component', () => {
   const mockRepositoryItem = {
     id: 123,
+    full_name: 'Mock Repository',
     name: 'Mock Repository',
     description: 'This is a mock repository',
     owner: {
       login: 'mockuser',
-      html_url: 'https://github.com/mockuser'
+      html_url: 'https://github.com/mockuser',
+      avatar_url: 'https://github.com/mockuser.png'
     },
     stargazers_count: 100,
     forks: 50,
