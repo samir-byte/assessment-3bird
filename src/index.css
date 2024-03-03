@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.markdown > * {
+  all: revert;
+}
+
+.prose.markdown img {
+  margin: 0;
+  border: none;
+}
+
+.prose.markdown h1 img {
+  display: inline;
+}
